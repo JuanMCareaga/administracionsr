@@ -41,7 +41,11 @@ function readStorage(key, fallback) {
 
 function writeStorage(key, value, message) {
     remoteData[key] = value;
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        // La aplicación no depende de localStorage cuando usa la API remota.
+    }
     const collection = collectionByStorageKey[key];
     fetch(`${apiBase}/api/${collection}`, {
         method: "PUT",
@@ -50,7 +54,10 @@ function writeStorage(key, value, message) {
     }).then(response => {
         if (!response.ok) throw new Error("No se pudo guardar");
         remoteSnapshot = JSON.stringify(remoteData);
-    }).catch(() => alert(message));
+    }).catch(error => {
+        console.error("Error al guardar en la API:", error);
+        alert("No se pudo guardar la información en el servidor. Verificá tu conexión e intentá nuevamente.");
+    });
 }
 
 async function loadRemoteData() {

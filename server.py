@@ -119,7 +119,7 @@ class AppHandler(SimpleHTTPRequestHandler):
     def do_PUT(self):
         path = urlparse(self.path).path.strip("/").split("/")
         if len(path) != 2 or path[0] != "api" or path[1] not in COLLECTIONS:
-            self.send_json(404, {"error": "Endpointo no encontrado"})
+            self.send_json(404, {"error": "Endpoint no encontrado"})
             return
 
         try:
@@ -135,7 +135,7 @@ class AppHandler(SimpleHTTPRequestHandler):
     def do_DELETE(self):
         path = urlparse(self.path).path.strip("/").split("/")
         if len(path) != 2 or path[0] != "api" or path[1] not in COLLECTIONS:
-            self.send_json(404, {"error": "Endpointo no encontrado"})
+            self.send_json(404, {"error": "Endpoint no encontrado"})
             return
         replace_collection(path[1], [])
         self.send_json(200, [])
