@@ -1,6 +1,3 @@
-```python
-#!/usr/bin/env python3
-
 import json
 import os
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
