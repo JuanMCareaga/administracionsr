@@ -27,7 +27,7 @@ def get_connection():
 
 def initialize_database():
     with get_connection() as connection:
-        connection.cursor().executemany(
+        connection.execute(
             """
             CREATE TABLE IF NOT EXISTS public.tasks (
                 id TEXT PRIMARY KEY,
