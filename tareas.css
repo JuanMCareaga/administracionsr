@@ -11,16 +11,29 @@ body {
 }
 
 .navbar {
+    align-items: center;
     background: #1f2937;
     border-bottom: 1px solid #374151;
     display: flex;
-    gap: 24px;
-    justify-content: center;
+    justify-content: space-around;
     margin: -40px -20px 40px;
     padding: 16px 20px;
     position: sticky;
     top: 0;
     z-index: 5;
+}
+
+.nav-brand {
+    display: flex;
+    flex: 0 0 auto;
+    line-height: 0;
+}
+
+.nav-brand img {
+    display: block;
+    height: auto;
+    max-width: 180px;
+    width: 28vw;
 }
 
 .nav-links {
@@ -375,21 +388,30 @@ li.completed .task-text {
     }
 
     .navbar {
-        align-items: flex-start;
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 10px;
         margin: -25px -15px 25px;
         padding: 12px 15px;
+        position: sticky;
     }
 
     .menu-toggle {
         display: block;
+        order: 1;
+    }
+
+    
+
+    .nav-brand img {
+        max-width: 145px;
+        width: 42vw;
     }
 
     .nav-links {
         display: none;
         flex-direction: column;
         gap: 14px;
+        order: 3;
         padding: 4px 8px 8px;
         width: 100%;
     }
