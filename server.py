@@ -27,7 +27,7 @@ def get_connection():
 
 def initialize_database():
     with get_connection() as connection:
-        connection.execute(
+        connection.cursor().executemany(
             """
             CREATE TABLE IF NOT EXISTS public.tasks (
                 id TEXT PRIMARY KEY,
@@ -57,7 +57,7 @@ def read_collection(collection):
         raise ValueError("Colección inválida")
 
     with get_connection() as connection:
-        rows = connection.execute(
+        rows = connection.cursor().executemany(
             f"SELECT * FROM public.{collection}"
         ).fetchall()
 
@@ -81,10 +81,10 @@ def replace_collection(collection, items):
         raise ValueError("Colección inválida")
 
     with get_connection() as connection:
-        connection.execute(f"DELETE FROM public.{collection}")
+        connection.cursor().execute(f"DELETE FROM public.{collection}")
 
         if collection == "tasks":
-            connection.executemany(
+            connection.cursor().executemany(
                 """
                 INSERT INTO public.tasks
                     (id, text, description, tag, completed)
@@ -103,7 +103,7 @@ def replace_collection(collection, items):
             )
 
         elif collection == "stock":
-            connection.executemany(
+            connection.cursor().executemany(
                 """
                 INSERT INTO public.stock (id, name, quantity)
                 VALUES (%s, %s, %s)
@@ -119,7 +119,7 @@ def replace_collection(collection, items):
             )
 
         else:
-            connection.executemany(
+            connection.cursor().executemany(
                 """
                 INSERT INTO public.expenses (id, name, value)
                 VALUES (%s, %s, %s)
