@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <link rel="stylesheet" href="tareas.css">
+</head>
+<body data-view="stock">
+    <nav class="navbar" aria-label="Navegación principal">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div class="nav-links" id="nav-links">
+            <a href="tareas.html">Tareas</a>
+            <a class="active" href="stock.html">Stock</a>
+            <a href="gastos.html">Gastos</a>
+        </div>
+    </nav>
+    <main class="container">
+        <h1>Stock 📦</h1>
+        <p class="subtitle">Llevá el control de tus artículos.</p>
+        <form class="stock-form" id="stock-form">
+            <input type="text" id="stock-name" placeholder="Nombre del artículo" autocomplete="off" required>
+            <input type="number" id="stock-quantity" min="1" step="1" value="1" aria-label="Cantidad" required>
+            <button class="add-button" type="submit">+ Agregar</button>
+        </form>
+        <div class="stats" id="stock-stats"></div>
+        <ul id="stock-list"></ul>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

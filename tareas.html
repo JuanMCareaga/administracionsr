@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tareas</title>
+    <link rel="stylesheet" href="tareas.css">
+</head>
+<body data-view="tasks">
+    <nav class="navbar" aria-label="Navegación principal">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div class="nav-links" id="nav-links">
+            <a class="active" href="tareas.html">Tareas</a>
+            <a href="stock.html">Stock</a>
+            <a href="gastos.html">Gastos</a>
+        </div>
+    </nav>
+    <main class="container">
+        <h1>Mis tareas ✨</h1>
+        <p class="subtitle">Organizá tu día, una tarea a la vez.</p>
+        <form id="task-form">
+            <input type="text" id="task-input" placeholder="¿Qué tenés que hacer?" autocomplete="off" required>
+            <textarea id="task-description" placeholder="Descripción" rows="1"></textarea>
+            <select id="task-tag" required aria-label="Etiqueta de la tarea">
+                <option value="" disabled selected>Para:</option>
+                <option value="monkey">Monkey</option>
+                <option value="internauta">Internauta</option>
+            </select>
+            <button class="add-button" type="submit">+ Agregar</button>
+        </form>
+        <div class="stats" id="stats">No hay tareas pendientes.</div>
+        <label class="filter-label" for="tag-filter">Filtrar por etiqueta:</label>
+        <select class="tag-filter" id="tag-filter" aria-label="Filtrar tareas por etiqueta">
+            <option value="all">Todas</option>
+            <option value="monkey">monkey</option>
+            <option value="internauta">internauta</option>
+        </select>
+        <button class="clear-all-button" id="clear-all-button" type="button" hidden>Eliminar todas</button>
+        <ul id="task-list"></ul>
+    </main>
+    <div class="task-modal" id="task-modal" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="modal-close" id="modal-close" type="button" aria-label="Cerrar descripción">×</button>
+            <span class="task-tag" id="modal-tag"></span>
+            <h2 id="modal-title"></h2>
+            <p class="modal-description" id="modal-description"></p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

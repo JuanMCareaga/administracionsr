@@ -1,0 +1,433 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    background: #111827;
+    color: #f9fafb;
+}
+
+.navbar {
+    background: #1f2937;
+    border-bottom: 1px solid #374151;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin: -40px -20px 40px;
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.navbar a {
+    color: #d1d5db;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: #34d399;
+}
+
+.menu-toggle {
+    background: transparent;
+    color: #f9fafb;
+    display: none;
+    font-size: 24px;
+    padding: 2px 8px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.stock-section {
+    border-top: 1px solid #374151;
+    margin-top: 60px;
+    padding-top: 40px;
+    scroll-margin-top: 70px;
+}
+
+#tasks-section {
+    scroll-margin-top: 70px;
+}
+
+h1 {
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #9ca3af;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+input,
+select,
+textarea {
+    flex: 1;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    background: #1f2937;
+    color: white;
+    font-size: 15px;
+}
+
+textarea {
+    font-family: inherit;
+    resize: vertical;
+}
+
+select {
+    flex: 0 0 170px;
+}
+
+#stock-quantity {
+    flex: 0 0 110px;
+}
+
+#expense-value {
+    flex: 0 0 130px;
+}
+
+button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-button {
+    background: #10b981;
+    color: #052e24;
+    font-weight: bold;
+}
+
+.add-button:hover {
+    background: #34d399;
+}
+
+.stats {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.filter-label {
+    color: #d1d5db;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.tag-filter {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.clear-all-button {
+    background: transparent;
+    color: #f87171;
+    margin-bottom: 15px;
+    padding: 6px 0;
+}
+
+.clear-all-button:hover {
+    color: #fca5a5;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    background: #1f2937;
+}
+
+.task-item {
+    cursor: pointer;
+}
+
+.task-item:hover,
+.task-item:focus-visible {
+    border-color: #6b7280;
+    outline: none;
+}
+
+li input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    accent-color: #10b981;
+    cursor: pointer;
+}
+
+.task-text {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.task-tag {
+    border-radius: 999px;
+    color: #111827;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 9px;
+    white-space: nowrap;
+}
+
+.task-tag.monkey {
+    background: #fbbf24;
+}
+
+.task-tag.internauta {
+    background: #60a5fa;
+}
+
+li.completed .task-text {
+    text-decoration: line-through;
+    color: #6b7280;
+}
+
+.delete-button {
+    background: transparent;
+    color: #f87171;
+    padding: 6px;
+}
+
+.delete-button:hover {
+    background: #374151;
+}
+
+.empty {
+    color: #9ca3af;
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.stock-item {
+    gap: 16px;
+}
+
+.stock-name {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.quantity-controls {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.quantity-button {
+    background: #374151;
+    color: #f9fafb;
+    font-size: 18px;
+    line-height: 1;
+    padding: 6px 10px;
+}
+
+.quantity-button:hover {
+    background: #4b5563;
+}
+
+.quantity-value {
+    min-width: 28px;
+    text-align: center;
+}
+
+.expense-total {
+    background: #064e3b;
+    border: 1px solid #10b981;
+    border-radius: 10px;
+    color: #d1fae5;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 16px;
+    text-align: right;
+}
+
+.expense-actions {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 15px;
+}
+
+.expense-actions .clear-all-button {
+    margin-bottom: 0;
+}
+
+.export-button {
+    background: #60a5fa;
+    color: #172554;
+    font-weight: bold;
+}
+
+.export-button:hover:not(:disabled) {
+    background: #93c5fd;
+}
+
+.export-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.expense-item {
+    gap: 16px;
+}
+
+.expense-name {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.expense-value {
+    color: #fbbf24;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.task-modal {
+    align-items: center;
+    background: rgb(0 0 0 / 65%);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 20px;
+    position: fixed;
+    z-index: 10;
+}
+
+.task-modal[hidden] {
+    display: none;
+}
+
+.modal-content {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    max-width: 500px;
+    padding: 28px;
+    position: relative;
+    width: 100%;
+}
+
+.modal-content h2 {
+    margin: 16px 0 10px;
+    overflow-wrap: anywhere;
+}
+
+.modal-description {
+    color: #d1d5db;
+    line-height: 1.5;
+    margin: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.modal-close {
+    background: transparent;
+    color: #d1d5db;
+    font-size: 24px;
+    line-height: 1;
+    padding: 4px 8px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.modal-close:hover {
+    background: #374151;
+}
+
+@media (max-width: 450px) {
+    body {
+        padding: 25px 15px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+        margin: -25px -15px 25px;
+        padding: 12px 15px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+        padding: 4px 8px 8px;
+        width: 100%;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    select {
+        flex-basis: auto;
+    }
+
+    #stock-quantity {
+        flex-basis: auto;
+    }
+
+    #expense-value {
+        flex-basis: auto;
+    }
+
+    .stock-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .stock-name {
+        flex-basis: calc(100% - 16px);
+    }
+
+    .stock-item .delete-button {
+        margin-left: auto;
+    }
+
+    .add-button {
+        padding: 14px;
+    }
+}
