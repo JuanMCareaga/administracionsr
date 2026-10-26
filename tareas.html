@@ -16,15 +16,15 @@
         </div>
     </nav>
     <main class="container">
-        <h1>Mis tareas ✨</h1>
-        <p class="subtitle">Organizá tu día, una tarea a la vez.</p>
+        <h1>Trabajo Pendiente </h1>
+        <p class="subtitle">Establece tareas pendientes para Sportsreel.</p>
         <form id="task-form">
             <input type="text" id="task-input" placeholder="¿Qué tenés que hacer?" autocomplete="off" required>
             <textarea id="task-description" placeholder="Descripción" rows="1"></textarea>
             <select id="task-tag" required aria-label="Etiqueta de la tarea">
                 <option value="" disabled selected>Para:</option>
-                <option value="monkey">Monkey</option>
-                <option value="internauta">Internauta</option>
+                <option value="monkey">Careaga</option>
+                <option value="internauta">Grossi</option>
             </select>
             <button class="add-button" type="submit">+ Agregar</button>
         </form>
@@ -32,8 +32,8 @@
         <label class="filter-label" for="tag-filter">Filtrar por etiqueta:</label>
         <select class="tag-filter" id="tag-filter" aria-label="Filtrar tareas por etiqueta">
             <option value="all">Todas</option>
-            <option value="monkey">monkey</option>
-            <option value="internauta">internauta</option>
+            <option value="monkey">Careaga</option>
+            <option value="internauta">Grossi</option>
         </select>
         <button class="clear-all-button" id="clear-all-button" type="button" hidden>Eliminar todas</button>
         <ul id="task-list"></ul>
