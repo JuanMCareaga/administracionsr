@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 import sqlite3
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -7,7 +8,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).parent
 DATABASE = ROOT / "app.db"
-PORT = 8000
+PORT = int(os.environ.get("PORT", "8000"))
 COLLECTIONS = {"tasks", "stock", "expenses"}
 
 

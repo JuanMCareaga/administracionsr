@@ -1,6 +1,9 @@
 const validTags = ["monkey", "internauta"];
 const currentView = document.body.dataset.view;
-const apiBase = window.location.protocol === "file:" ? "http://localhost:8000" : "";
+const isLocal = window.location.protocol === "file:" ||
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+const apiBase = isLocal ? "http://localhost:8000" : "https://administracionsr.onrender.com";
 const collectionByStorageKey = {
     "mis-tareas": "tasks",
     "mis-stock": "stock",

@@ -14,7 +14,13 @@ Después abrí:
 http://localhost:8000/tareas.html
 ```
 
-La aplicación usa SQLite (`app.db`) y una API local para compartir tareas, stock y gastos entre navegadores.
+La aplicación usa SQLite (`app.db`) y una API para compartir tareas, stock y gastos entre navegadores. En Render, el servidor usa automáticamente el puerto asignado mediante la variable `PORT`.
+
+Cuando las vistas se publican en GitHub Pages, utilizan automáticamente la API pública:
+
+```text
+https://administracionsr.onrender.com
+```
 
 Para conectarte desde otro dispositivo en la misma red Wi-Fi, buscá la IP de la computadora que ejecuta el servidor y abrí:
 
