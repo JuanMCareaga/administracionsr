@@ -237,19 +237,14 @@ class AppHandler(SimpleHTTPRequestHandler):
                 read_collection(path[1]),
             )
 
-        except (
-            ValueError,
-            KeyError,
-            TypeError,
-            json.JSONDecodeError,
-            psycopg.Error,
-        ):
-            self.log_error("Error guardando la colección")
+        except Exception:
+            import traceback
+
+            traceback.print_exc()
             self.send_json(
-                400,
+                500,
                 {"error": "No se pudieron guardar los datos"},
             )
-
     def do_DELETE(self):
         path = urlparse(self.path).path.strip("/").split("/")
 
