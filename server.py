@@ -243,8 +243,9 @@ class AppHandler(SimpleHTTPRequestHandler):
             traceback.print_exc()
             self.send_json(
                 500,
-                {"error": "No se pudieron guardar los datos"},
+                {"error": "Error al leer los datos"},
             )
+        
     def do_DELETE(self):
         path = urlparse(self.path).path.strip("/").split("/")
 
