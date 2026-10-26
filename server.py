@@ -57,11 +57,14 @@ def read_collection(collection):
         raise ValueError("Colección inválida")
 
     with get_connection() as connection:
-        rows = connection.cursor().executemany(
-            f"SELECT * FROM public.{collection}"
-        ).fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"SELECT * FROM public.{collection}"
+            )
+            rows = cursor.fetchall()
 
     result = []
+
     for row in rows:
         item = dict(row)
 
