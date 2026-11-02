@@ -59,6 +59,16 @@
             <span class="task-tag" id="modal-tag"></span>
             <h2 id="modal-title"></h2>
             <p class="modal-description" id="modal-description"></p>
+            <div class="modal-actions" id="description-view-actions">
+                <button class="edit-button" id="edit-description-button" type="button">Editar descripción</button>
+            </div>
+            <div class="description-edit" id="description-edit" hidden>
+                <textarea class="modal-description-input" id="modal-description-input" rows="5" placeholder="Esta tarea no tiene descripción."></textarea>
+                <div class="modal-actions">
+                    <button class="add-button" id="save-description-button" type="button">Guardar descripción</button>
+                    <button class="cancel-button" id="cancel-description-button" type="button">Cancelar</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>

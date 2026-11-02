@@ -112,8 +112,15 @@ function setupTasks() {
     const modalTag = document.getElementById("modal-tag");
     const modalTitle = document.getElementById("modal-title");
     const modalDescription = document.getElementById("modal-description");
+    const descriptionViewActions = document.getElementById("description-view-actions");
+    const editDescriptionButton = document.getElementById("edit-description-button");
+    const descriptionEdit = document.getElementById("description-edit");
+    const modalDescriptionInput = document.getElementById("modal-description-input");
+    const saveDescriptionButton = document.getElementById("save-description-button");
+    const cancelDescriptionButton = document.getElementById("cancel-description-button");
     let currentFilter = "all";
     let tasks = readStorage("mis-tareas", []);
+    let selectedTask = null;
 
     if (!Array.isArray(tasks)) tasks = [];
     tasks = tasks
@@ -130,10 +137,14 @@ function setupTasks() {
     }
 
     function openTaskDetails(task) {
+        selectedTask = task;
         modalTag.className = `task-tag ${task.tag}`;
         modalTag.textContent = task.tag;
         modalTitle.textContent = task.text;
         modalDescription.textContent = task.description || "Esta tarea no tiene descripción.";
+        modalDescriptionInput.value = task.description;
+        descriptionViewActions.hidden = false;
+        descriptionEdit.hidden = true;
         taskModal.hidden = false;
         modalClose.focus();
     }
@@ -228,6 +239,28 @@ function setupTasks() {
     tagFilter.addEventListener("change", () => {
         currentFilter = tagFilter.value;
         renderTasks();
+    });
+    editDescriptionButton.addEventListener("click", () => {
+        descriptionViewActions.hidden = true;
+        descriptionEdit.hidden = false;
+        modalDescriptionInput.focus();
+    });
+    saveDescriptionButton.addEventListener("click", () => {
+        if (!selectedTask) return;
+        selectedTask.description = modalDescriptionInput.value.trim();
+        saveTasks();
+        modalDescription.textContent = selectedTask.description || "Esta tarea no tiene descripción.";
+        descriptionViewActions.hidden = false;
+        descriptionEdit.hidden = true;
+        renderTasks();
+        editDescriptionButton.focus();
+    });
+    cancelDescriptionButton.addEventListener("click", () => {
+        if (!selectedTask) return;
+        modalDescriptionInput.value = selectedTask.description;
+        descriptionViewActions.hidden = false;
+        descriptionEdit.hidden = true;
+        editDescriptionButton.focus();
     });
     modalClose.addEventListener("click", () => { taskModal.hidden = true; });
     taskModal.addEventListener("click", event => {

@@ -362,9 +362,42 @@ li.completed .task-text {
 .modal-description {
     color: #d1d5db;
     line-height: 1.5;
-    margin: 0;
+    margin: 0 0 18px;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.edit-button {
+    background: #374151;
+    color: #f9fafb;
+}
+
+.edit-button:hover,
+.cancel-button:hover {
+    background: #4b5563;
+}
+
+.description-edit[hidden],
+.modal-actions[hidden] {
+    display: none;
+}
+
+.modal-description-input {
+    display: block;
+    margin-bottom: 18px;
+    min-height: 120px;
+    width: 100%;
+}
+
+.cancel-button {
+    background: #374151;
+    color: #f9fafb;
 }
 
 .modal-close {
