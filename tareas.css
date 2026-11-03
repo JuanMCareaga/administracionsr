@@ -209,8 +209,11 @@ li {
 }
 
 .task-text {
+    font-weight: bolder;
+    font-family: roboto, sans-serif;
     flex: 1;
     overflow-wrap: anywhere;
+    font-size: 16px;
 }
 
 .task-status {
