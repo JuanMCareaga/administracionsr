@@ -46,8 +46,12 @@ def initialize_database():
             CREATE TABLE IF NOT EXISTS public.expenses (
                 id TEXT PRIMARY KEY,
                 name TEXT NOT NULL,
-                value NUMERIC NOT NULL DEFAULT 0
+                value NUMERIC NOT NULL DEFAULT 0,
+                expense_date TEXT NOT NULL DEFAULT ''
             );
+
+            ALTER TABLE public.expenses
+                ADD COLUMN IF NOT EXISTS expense_date TEXT NOT NULL DEFAULT '';
             """
         )
 
@@ -73,6 +77,7 @@ def read_collection(collection):
 
         if collection == "expenses":
             item["value"] = float(item["value"])
+            item["date"] = item.pop("expense_date", "")
 
         result.append(item)
 
@@ -124,14 +129,15 @@ def replace_collection(collection, items):
         else:
             connection.cursor().executemany(
                 """
-                INSERT INTO public.expenses (id, name, value)
-                VALUES (%s, %s, %s)
+                INSERT INTO public.expenses (id, name, value, expense_date)
+                VALUES (%s, %s, %s, %s)
                 """,
                 [
                     (
                         item["id"],
                         item["name"],
                         float(item["value"]),
+                        item.get("date", ""),
                     )
                     for item in items
                 ],

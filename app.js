@@ -1,4 +1,9 @@
-const validTags = ["monkey", "internauta"];
+const validTags = ["monkey", "internauta", "suarez"];
+const tagLabels = {
+    monkey: "Careaga",
+    internauta: "Grossi",
+    suarez: "Suarez"
+};
 const currentView = document.body.dataset.view;
 const isLocal = window.location.protocol === "file:" ||
     window.location.hostname === "localhost" ||
@@ -139,7 +144,7 @@ function setupTasks() {
     function openTaskDetails(task) {
         selectedTask = task;
         modalTag.className = `task-tag ${task.tag}`;
-        modalTag.textContent = task.tag;
+        modalTag.textContent = tagLabels[task.tag];
         modalTitle.textContent = task.text;
         modalDescription.textContent = task.description || "Esta tarea no tiene descripción.";
         modalDescriptionInput.value = task.description;
@@ -194,7 +199,7 @@ function setupTasks() {
             text.textContent = task.text;
             const tag = document.createElement("span");
             tag.className = `task-tag ${task.tag}`;
-            tag.textContent = task.tag;
+            tag.textContent = tagLabels[task.tag];
 
             const deleteButton = document.createElement("button");
             deleteButton.className = "delete-button";
@@ -352,9 +357,17 @@ function setupExpenses() {
     const totalElement = document.getElementById("expense-total");
     const clearButton = document.getElementById("clear-expenses-button");
     const exportButton = document.getElementById("export-expenses-button");
+    const monthFilter = document.getElementById("expense-month-filter");
+    const clearFilterButton = document.getElementById("clear-expense-filter");
     const list = document.getElementById("expense-list");
     let expenses = readStorage("mis-gastos", []);
     if (!Array.isArray(expenses)) expenses = [];
+    let selectedMonth = "";
+
+    expenses = expenses.map(expense => ({
+        ...expense,
+        date: typeof expense.date === "string" ? expense.date : ""
+    }));
 
     function saveExpenses() {
         writeStorage("mis-gastos", expenses, "No se pudieron guardar los gastos en el navegador.");
@@ -362,25 +375,38 @@ function setupExpenses() {
     function currency(value) {
         return new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(value);
     }
+    function formatDate(date) {
+        if (!date) return "Fecha no disponible";
+        return new Intl.DateTimeFormat("es-AR", { dateStyle: "medium" }).format(new Date(`${date}T00:00:00`));
+    }
     function renderExpenses() {
         list.replaceChildren();
-        const total = expenses.reduce((sum, expense) => sum + expense.value, 0);
+        const visibleExpenses = selectedMonth
+            ? expenses.filter(expense => expense.date.startsWith(selectedMonth))
+            : expenses;
+        const total = visibleExpenses.reduce((sum, expense) => sum + expense.value, 0);
         totalElement.textContent = `Total: ${currency(total)}`;
         clearButton.hidden = expenses.length <= 1;
-        exportButton.disabled = expenses.length === 0;
-        if (expenses.length === 0) {
+        clearFilterButton.hidden = !selectedMonth;
+        exportButton.disabled = visibleExpenses.length === 0;
+        if (visibleExpenses.length === 0) {
             const message = document.createElement("li");
             message.className = "empty";
-            message.textContent = "Todavía no agregaste ningún gasto.";
+            message.textContent = expenses.length === 0
+                ? "Todavía no agregaste ningún gasto."
+                : "No hay gastos para el mes seleccionado.";
             list.appendChild(message);
             return;
         }
-        expenses.forEach(expense => {
+        visibleExpenses.forEach(expense => {
             const li = document.createElement("li");
             li.className = "expense-item";
             const name = document.createElement("span");
             name.className = "expense-name";
             name.textContent = expense.name;
+            const date = document.createElement("span");
+            date.className = "expense-date";
+            date.textContent = formatDate(expense.date);
             const value = document.createElement("span");
             value.className = "expense-value";
             value.textContent = currency(expense.value);
@@ -389,7 +415,7 @@ function setupExpenses() {
             remove.type = "button";
             remove.textContent = "Eliminar";
             remove.addEventListener("click", () => { expenses = expenses.filter(item => item.id !== expense.id); saveExpenses(); renderExpenses(); });
-            li.append(name, value, remove);
+            li.append(name, date, value, remove);
             list.appendChild(li);
         });
     }
@@ -398,7 +424,9 @@ function setupExpenses() {
         const name = nameInput.value.trim();
         const value = Number(valueInput.value);
         if (!name || !Number.isFinite(value) || value < 0) return;
-        expenses.unshift({ id: crypto.randomUUID(), name, value });
+        const today = new Date();
+        const date = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
+        expenses.unshift({ id: crypto.randomUUID(), name, value, date });
         saveExpenses();
         renderExpenses();
         nameInput.value = "";
@@ -411,10 +439,22 @@ function setupExpenses() {
         saveExpenses();
         renderExpenses();
     });
+    monthFilter.addEventListener("change", () => {
+        selectedMonth = monthFilter.value;
+        renderExpenses();
+    });
+    clearFilterButton.addEventListener("click", () => {
+        selectedMonth = "";
+        monthFilter.value = "";
+        renderExpenses();
+    });
     exportButton.addEventListener("click", () => {
-        if (expenses.length === 0) return;
-        const total = expenses.reduce((sum, expense) => sum + expense.value, 0);
-        const rows = [["Nombre", "Valor"], ...expenses.map(expense => [expense.name, expense.value.toFixed(2)]), ["TOTAL", total.toFixed(2)]];
+        const visibleExpenses = selectedMonth
+            ? expenses.filter(expense => expense.date.startsWith(selectedMonth))
+            : expenses;
+        if (visibleExpenses.length === 0) return;
+        const total = visibleExpenses.reduce((sum, expense) => sum + expense.value, 0);
+        const rows = [["Nombre", "Valor", "Fecha"], ...visibleExpenses.map(expense => [expense.name, expense.value.toFixed(2), expense.date]), ["TOTAL", total.toFixed(2), ""]];
         const escapeCsv = value => `"${String(value).replace(/"/g, '""')}"`;
         const csv = "\ufeff" + rows.map(row => row.map(escapeCsv).join(";")).join("\r\n");
         const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));

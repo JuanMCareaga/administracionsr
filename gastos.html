@@ -39,6 +39,11 @@
             <button class="add-button" type="submit">+ Agregar</button>
         </form>
         <div class="expense-total" id="expense-total">Total: $0,00</div>
+        <div class="expense-filter">
+            <label for="expense-month-filter">Filtrar por mes:</label>
+            <input type="month" id="expense-month-filter" aria-label="Filtrar gastos por mes">
+            <button class="clear-filter-button" id="clear-expense-filter" type="button" hidden>Ver todos</button>
+        </div>
         <div class="expense-actions">
             <button class="clear-all-button" id="clear-expenses-button" type="button" hidden>Eliminar todos</button>
             <button class="export-button" id="export-expenses-button" type="button" disabled>Exportar para Excel</button>

@@ -14,7 +14,7 @@ body {
     align-items: center;
     background: #1f2937;
     border-bottom: 1px solid #374151;
-    display: flex;
+    display: none;
     justify-content: space-around;
     margin: -40px -20px 40px;
     padding: 16px 20px;
@@ -224,6 +224,10 @@ li input[type="checkbox"] {
     background: #60a5fa;
 }
 
+.task-tag.suarez {
+    background: #f472b6;
+}
+
 li.completed .task-text {
     text-decoration: line-through;
     color: #6b7280;
@@ -289,6 +293,33 @@ li.completed .task-text {
     text-align: right;
 }
 
+.expense-filter {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.expense-filter label {
+    color: #d1d5db;
+    font-size: 14px;
+}
+
+.expense-filter input {
+    flex: 0 1 180px;
+    padding: 10px;
+}
+
+.clear-filter-button {
+    background: transparent;
+    color: #60a5fa;
+    padding: 6px 0;
+}
+
+.clear-filter-button:hover {
+    color: #93c5fd;
+}
+
 .expense-actions {
     display: flex;
     gap: 14px;
@@ -321,6 +352,12 @@ li.completed .task-text {
 .expense-name {
     flex: 1;
     overflow-wrap: anywhere;
+}
+
+.expense-date {
+    color: #9ca3af;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
 .expense-value {
