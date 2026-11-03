@@ -524,6 +524,26 @@ li.completed .task-text {
         flex-direction: column;
     }
 
+    .task-item {
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .task-item .task-text {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .task-item .task-status {
+        flex: 1 1 135px;
+        width: auto;
+    }
+
+    .task-item .delete-button {
+        margin-left: auto;
+    }
+
     select {
         flex-basis: auto;
     }
