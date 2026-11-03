@@ -34,8 +34,12 @@ def initialize_database():
                 text TEXT NOT NULL,
                 description TEXT NOT NULL DEFAULT '',
                 tag TEXT NOT NULL,
-                completed BOOLEAN NOT NULL DEFAULT FALSE
+                completed BOOLEAN NOT NULL DEFAULT FALSE,
+                status TEXT NOT NULL DEFAULT 'pending'
             );
+
+            ALTER TABLE public.tasks
+                ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'pending';
 
             CREATE TABLE IF NOT EXISTS public.stock (
                 id TEXT PRIMARY KEY,
@@ -74,6 +78,9 @@ def read_collection(collection):
 
         if collection == "tasks":
             item["completed"] = bool(item["completed"])
+            item["status"] = item.get("status") or ("completed" if item["completed"] else "pending")
+            if item["completed"] and item["status"] == "pending":
+                item["status"] = "completed"
 
         if collection == "expenses":
             item["value"] = float(item["value"])
@@ -95,8 +102,8 @@ def replace_collection(collection, items):
             connection.cursor().executemany(
                 """
                 INSERT INTO public.tasks
-                    (id, text, description, tag, completed)
-                VALUES (%s, %s, %s, %s, %s)
+                    (id, text, description, tag, completed, status)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 """,
                 [
                     (
@@ -105,6 +112,7 @@ def replace_collection(collection, items):
                         item.get("description", ""),
                         item["tag"],
                         bool(item.get("completed", False)),
+                        item.get("status", "completed" if item.get("completed", False) else "pending"),
                     )
                     for item in items
                 ],

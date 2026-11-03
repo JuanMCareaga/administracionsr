@@ -4,6 +4,12 @@ const tagLabels = {
     internauta: "Grossi",
     suarez: "Suarez"
 };
+const validStatuses = ["pending", "in-progress", "completed"];
+const statusLabels = {
+    pending: "Pendiente",
+    "in-progress": "En progreso",
+    completed: "Finalizada"
+};
 const currentView = document.body.dataset.view;
 const isLocal = window.location.protocol === "file:" ||
     window.location.hostname === "localhost" ||
@@ -134,7 +140,10 @@ function setupTasks() {
             ...task,
             tag: validTags.includes(task.tag) ? task.tag : "monkey",
             description: typeof task.description === "string" ? task.description : "",
-            completed: task.completed === true
+            status: validStatuses.includes(task.status)
+                ? task.status
+                : task.completed === true ? "completed" : "pending",
+            completed: task.completed === true || task.status === "completed"
         }));
 
     function saveTasks() {
@@ -157,8 +166,10 @@ function setupTasks() {
     function renderTasks() {
         taskList.replaceChildren();
         const visibleTasks = currentFilter === "all" ? tasks : tasks.filter(task => task.tag === currentFilter);
-        const pending = visibleTasks.filter(task => !task.completed).length;
-        stats.textContent = `${pending} pendientes · ${visibleTasks.length - pending} completadas`;
+        const pending = visibleTasks.filter(task => task.status === "pending").length;
+        const inProgress = visibleTasks.filter(task => task.status === "in-progress").length;
+        const completed = visibleTasks.filter(task => task.status === "completed").length;
+        stats.textContent = `${pending} pendientes · ${inProgress} en progreso · ${completed} finalizadas`;
         clearAllButton.hidden = tasks.length <= 1;
 
         if (visibleTasks.length === 0) {
@@ -171,7 +182,7 @@ function setupTasks() {
 
         visibleTasks.forEach(task => {
             const li = document.createElement("li");
-            li.className = task.completed ? "completed task-item" : "task-item";
+            li.className = `task-item status-${task.status}`;
             li.tabIndex = 0;
             li.setAttribute("role", "button");
             li.setAttribute("aria-label", `Ver detalles de: ${task.text}`);
@@ -183,13 +194,20 @@ function setupTasks() {
                 }
             });
 
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.checked = task.completed;
-            checkbox.setAttribute("aria-label", "Marcar tarea como completada");
-            checkbox.addEventListener("click", event => event.stopPropagation());
-            checkbox.addEventListener("change", () => {
-                task.completed = checkbox.checked;
+            const status = document.createElement("select");
+            status.className = `task-status status-${task.status}`;
+            status.setAttribute("aria-label", `Estado de ${task.text}`);
+            validStatuses.forEach(statusValue => {
+                const option = document.createElement("option");
+                option.value = statusValue;
+                option.textContent = statusLabels[statusValue];
+                option.selected = task.status === statusValue;
+                status.appendChild(option);
+            });
+            status.addEventListener("click", event => event.stopPropagation());
+            status.addEventListener("change", () => {
+                task.status = status.value;
+                task.completed = task.status === "completed";
                 saveTasks();
                 renderTasks();
             });
@@ -211,7 +229,7 @@ function setupTasks() {
                 saveTasks();
                 renderTasks();
             });
-            li.append(checkbox, text, tag, deleteButton);
+            li.append(text, status, tag, deleteButton);
             taskList.appendChild(li);
         });
     }
@@ -226,6 +244,7 @@ function setupTasks() {
             text,
             description: descriptionInput.value.trim(),
             tag,
+            status: "pending",
             completed: false
         });
         saveTasks();

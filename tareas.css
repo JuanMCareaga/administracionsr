@@ -194,17 +194,47 @@ li {
     outline: none;
 }
 
-li input[type="checkbox"] {
-    flex: 0 0 auto;
-    width: 18px;
-    height: 18px;
-    accent-color: #10b981;
-    cursor: pointer;
+.task-item.status-pending {
+    background: #1f2937;
+}
+
+.task-item.status-in-progress {
+    background: #4a3518;
+    border-color: #a16207;
+}
+
+.task-item.status-completed {
+    background: #123c35;
+    border-color: #047857;
 }
 
 .task-text {
     flex: 1;
     overflow-wrap: anywhere;
+}
+
+.task-status {
+    flex: 0 0 auto;
+    padding: 8px;
+    width: 135px;
+}
+
+.task-status.status-pending {
+    background: #1f2937;
+    border-color: #6b7280;
+    color: #f9fafb;
+}
+
+.task-status.status-in-progress {
+    background: #4a3518;
+    border-color: #a16207;
+    color: #fef3c7;
+}
+
+.task-status.status-completed {
+    background: #123c35;
+    border-color: #047857;
+    color: #d1fae5;
 }
 
 .task-tag {
